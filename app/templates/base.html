@@ -1,0 +1,66 @@
+{% from 'macros/icons.html' import icon %}
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Trace{% endblock %}</title>
+  <link rel="icon" href="{{ url_for('static', path='/trace-logo.svg') }}" type="image/svg+xml">
+  <link rel="preload" href="{{ url_for('static', path='/fonts/Satoshi-Regular.woff2') }}" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="{{ url_for('static', path='/fonts/Satoshi-Medium.woff2') }}" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="{{ url_for('static', path='/app.css') }}">
+  {% block head %}{% endblock %}
+</head>
+<body>
+  {% set path = request.url.path %}
+  {% set section = 'work' if path == '/' or path.startswith('/history') or path.startswith('/days') else ('docs' if path.startswith('/projects') or path.startswith('/documents') or path.startswith('/network') or path.startswith('/report') else 'analysis') %}
+  <a class="skip-link" href="#content">Zum Inhalt springen</a>
+  <div class="mobile-header">
+    <button class="icon-button" type="button" data-action="toggle-sidebar" aria-label="Navigation öffnen" aria-expanded="false">{{ icon('menu') }}</button>
+    <a class="mobile-brand" href="/"><img src="{{ url_for('static', path='/trace-logo.svg') }}" alt=""><span>Trace</span></a>
+    <span class="status-dot" title="Lokal verfügbar"></span>
+  </div>
+  <div class="app-shell" data-shell>
+    <aside class="rail" aria-label="Bereiche">
+      <a class="brand-mark" href="/" aria-label="Trace"><img src="{{ url_for('static', path='/trace-logo.svg') }}" alt=""></a>
+      <nav class="rail-nav">
+        <a href="/" class="rail-link {{ 'active' if section == 'work' }}" aria-label="Arbeitszeit" title="Arbeitszeit">{{ icon('clock') }}</a>
+        <a href="/projects" class="rail-link {{ 'active' if section == 'docs' }}" aria-label="Dokumentation" title="Dokumentation">{{ icon('folder') }}</a>
+        <a href="/overview" class="rail-link {{ 'active' if section == 'analysis' }}" aria-label="Auswertung" title="Auswertung">{{ icon('chart') }}</a>
+      </nav>
+      <div class="rail-profile" title="Lokaler Arbeitsraum">YA</div>
+    </aside>
+
+    <aside class="context-sidebar" data-sidebar aria-label="Seitennavigation">
+      <div class="sidebar-head">
+        <div><span class="eyebrow">Trace</span><strong>{{ 'Arbeitszeit' if section == 'work' else ('Dokumentation' if section == 'docs' else 'Auswertung') }}</strong></div>
+        <button class="icon-button sidebar-close" type="button" data-action="toggle-sidebar" aria-label="Navigation schließen">{{ icon('close') }}</button>
+      </div>
+      <nav class="sidebar-nav">
+        {% if section == 'work' %}
+          <span class="nav-group-label">Erfassen</span>
+          <a href="/" class="sidebar-link {{ 'active' if path == '/' }}">{{ icon('dashboard') }}<span>Dashboard</span></a>
+          <a href="/history" class="sidebar-link {{ 'active' if path.startswith('/history') or path.startswith('/days') }}">{{ icon('calendar') }}<span>Zeiten</span></a>
+        {% elif section == 'docs' %}
+          <span class="nav-group-label">Dokumentieren</span>
+          <a href="/report" class="sidebar-link {{ 'active' if path.startswith('/report') }}">{{ icon('document') }}<span>Bericht</span></a>
+          <a href="/projects" class="sidebar-link {{ 'active' if path.startswith('/projects') or path.startswith('/documents') }}">{{ icon('folder') }}<span>Projekte</span></a>
+          <a href="/network" class="sidebar-link {{ 'active' if path.startswith('/network') }}">{{ icon('network') }}<span>Netzwerk</span></a>
+        {% else %}
+          <span class="nav-group-label">Verstehen</span>
+          <a href="/overview" class="sidebar-link {{ 'active' if path.startswith('/overview') }}">{{ icon('chart') }}<span>Statistik</span></a>
+          <a href="/export.csv" class="sidebar-link">{{ icon('download') }}<span>CSV exportieren</span></a>
+        {% endif %}
+      </nav>
+      <div class="sidebar-meta"><span class="status-dot"></span><span>Lokale Datenbank</span></div>
+    </aside>
+    <button class="sidebar-scrim" type="button" data-action="toggle-sidebar" aria-label="Navigation schließen"></button>
+
+    <main class="workspace" id="content" tabindex="-1">
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+  <script src="{{ url_for('static', path='/app.js') }}" defer></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

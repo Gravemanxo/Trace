@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% from 'macros/icons.html' import icon %}
+{% block title %}Statistik · Trace{% endblock %}
+{% block content %}
+<header class="page-header"><div><span class="eyebrow">Auswertung</span><h1>Statistik</h1><p>Arbeitszeit verdichtet, ohne die Erfassung aus dem Blick zu verlieren.</p></div><a class="button secondary" href="/export.csv">{{ icon('download') }}CSV exportieren</a></header>
+<section class="panel"><div class="panel-heading"><div><span class="eyebrow">Zeitbilanz</span><h2>Aktueller Stand</h2></div></div><div class="metric-strip"><div class="metric"><span>Heute</span><strong>{{ today_total|duration }}</strong></div><div class="metric"><span>Woche</span><strong>{{ week_total|duration }}</strong></div><div class="metric"><span>Monat</span><strong>{{ month_total|duration }}</strong></div><div class="metric"><span>Gesamt</span><strong>{{ total|duration }}</strong><small>{{ day_count }} erfasste Tage</small></div></div></section>
+<section class="panel"><div class="panel-heading"><div><span class="eyebrow">Diese Woche</span><h2>Tagesverteilung</h2></div><span class="muted">Referenz: 8 Stunden</span></div><div class="week-chart" aria-label="Arbeitszeit dieser Woche">{% for item in week_days %}<div class="bar-column"><div class="bar-track"><span class="bar bar-{{ item.height_step }}"></span></div><strong>{{ item.label }}</strong><small>{{ (item.seconds / 3600)|round(1) }} h</small></div>{% endfor %}</div></section>
+<section class="panel callout-panel"><div><span class="eyebrow">Daten</span><h2>Rohdaten weiterverwenden</h2><p>Der CSV-Export enthält jede einzelne Arbeitsphase mit Tagesnotiz.</p></div><a class="button primary" href="/export.csv">{{ icon('download') }}Export starten</a></section>
+{% endblock %}

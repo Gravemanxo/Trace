@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% from 'macros/icons.html' import icon %}
+{% block title %}Dashboard · Trace{% endblock %}
+{% block content %}
+<header class="page-header">
+  <div><span class="eyebrow">{{ current.strftime('%d.%m.%Y') }}</span><h1>Dashboard</h1><p>Arbeitszeit erfassen und den heutigen Fortschritt im Blick behalten.</p></div>
+  <a class="button secondary" href="/days/{{ current.date().isoformat() }}">{{ icon('edit') }}Tag bearbeiten</a>
+</header>
+{% if error %}<div class="alert" role="alert">{{ error }}</div>{% endif %}
+<section class="timer-panel {{ 'is-running' if running }}" aria-labelledby="timer-heading">
+  <div class="timer-copy"><span class="status-label"><span class="status-dot"></span>{{ 'Arbeitsphase läuft' if running else 'Bereit zum Erfassen' }}</span><h2 id="timer-heading">{{ 'Aktive Arbeitszeit' if running else 'Heute gearbeitet' }}</h2><p>{{ ('Gestartet um ' ~ running.start_time.strftime('%H:%M') ~ ' Uhr') if running else 'Starte eine neue Arbeitsphase, sobald du beginnst.' }}</p></div>
+  <div class="timer-value" data-live-timer data-started="{{ running_started or '' }}" data-completed-seconds="{{ completed_seconds }}">{{ today_total|duration }}<span>.000</span></div>
+  <form method="post" action="{{ '/check-out' if running else '/check-in' }}"><input type="hidden" name="csrf_token" value="{{ csrf_token(request) }}"><button class="button primary large" type="submit">{{ icon('stop' if running else 'play') }}{{ 'Arbeitsphase beenden' if running else 'Arbeitsphase starten' }}</button></form>
+</section>
+<section class="panel" aria-labelledby="metrics-heading"><div class="panel-heading"><div><span class="eyebrow">Überblick</span><h2 id="metrics-heading">Deine Arbeitszeit</h2></div><a class="text-link" href="/overview">Details {{ icon('arrow') }}</a></div><div class="metric-strip"><div class="metric"><span>Heute</span><strong>{{ today_total|duration }}</strong><small>inklusive laufender Phase</small></div><div class="metric"><span>Diese Woche</span><strong>{{ week_total|duration }}</strong><small>Montag bis heute</small></div><div class="metric"><span>Dieser Monat</span><strong>{{ month_total|duration }}</strong><small>{{ current.strftime('%m/%Y') }}</small></div><div class="metric"><span>Erfasste Tage</span><strong>{{ day_count }}</strong><small>insgesamt</small></div></div></section>
+<section class="split-grid"><article class="panel"><span class="eyebrow">Tagesnotiz</span><h2>Dokumentation für heute</h2><p class="preserve-lines">{{ today.notes if today and today.notes else 'Noch keine Tätigkeit für heute dokumentiert.' }}</p><a class="button secondary" href="/days/{{ current.date().isoformat() }}">{{ icon('edit') }}Notiz bearbeiten</a></article><article class="panel"><span class="eyebrow">Bericht</span><h2>Monat vorbereiten</h2><p>Aus deinen Tagesnotizen entsteht eine klar strukturierte Berichtsvorlage.</p><a class="button secondary" href="/report">{{ icon('document') }}Bericht öffnen</a></article></section>
+{% endblock %}

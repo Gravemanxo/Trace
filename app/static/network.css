@@ -1,0 +1,13 @@
+.network-panel { padding: 0; overflow: hidden; }
+.network-toolbar { min-height: 58px; padding: 0 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; border-bottom: 1px solid var(--line); }
+.network-toolbar p { margin: 0; font-size: .75rem; }
+.node-key { border-radius: 50%; }.project-key { background: #20201f; }.document-key { background: #777773; }.day-key { background: #deded9; }
+.network-canvas { height: min(66vh, 720px); min-height: 480px; background-color: rgb(255 255 253 / 34%); background-image: radial-gradient(rgb(112 113 108 / 26%) 1px, transparent 1px); background-size: 22px 22px; cursor: grab; overflow: hidden; }
+.network-canvas:active { cursor: grabbing; }
+.network-canvas svg { width: 100%; height: 100%; touch-action: none; }
+.network-edge { stroke: #c6c6c0; stroke-width: 1.2; }
+.network-node circle { stroke: #fff; stroke-width: 3; filter: drop-shadow(0 3px 5px rgb(0 0 0 / 12%)); cursor: pointer; }
+.network-node[data-type="project"] circle { fill: #20201f; }.network-node[data-type="document"] circle { fill: #777773; }.network-node[data-type="day"] circle { fill: #deded9; stroke: #9c9c96; }
+.network-node text { fill: #333330; font: 500 12px "Satoshi", system-ui, sans-serif; pointer-events: none; paint-order: stroke; stroke: #f8f8f6; stroke-width: 4px; stroke-linejoin: round; }
+.network-empty { min-height: 480px; display: flex; align-items: center; justify-content: center; flex-direction: column; text-align: center; }
+@media (max-width: 760px) { .network-toolbar { padding: 12px; align-items: flex-start; flex-direction: column; }.network-canvas { min-height: 440px; } }

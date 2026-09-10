@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% from 'macros/icons.html' import icon %}
+{% block title %}{{ document.title }} · Trace{% endblock %}
+{% block content %}
+<header class="page-header"><div><a class="back-link" href="/projects/{{ document.project.id }}">{{ icon('chevron-left') }}{{ document.project.name }}</a><h1>{{ document.title }}</h1><p>Projektwissen unabhängig von der täglichen Berichtsdokumentation.</p></div><a class="button secondary" href="/network">{{ icon('network') }}Im Netzwerk ansehen</a></header>
+{% if error %}<div class="alert" role="alert">{{ error }}</div>{% endif %}
+<section class="editor-panel"><form method="post" action="/documents/{{ document.id }}"><input type="hidden" name="csrf_token" value="{{ csrf_token(request) }}"><label><span>Dokumenttitel</span><input class="title-input" name="title" value="{{ document.title }}" required></label><label><span>Inhalt</span><textarea class="document-editor" name="content" rows="25" placeholder="Dokumentation, Erkenntnisse und Entscheidungen …">{{ document.content }}</textarea></label><div class="sticky-actions"><span class="muted">Lokal in deinem Arbeitsraum gespeichert</span><button class="button primary" type="submit">Dokument speichern</button></div></form></section>
+{% endblock %}

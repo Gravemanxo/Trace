@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% from 'macros/icons.html' import icon %}
+{% block title %}Netzwerk · Trace{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', path='/network.css') }}">{% endblock %}
+{% block content %}
+<header class="page-header"><div><span class="eyebrow">Zusammenhänge</span><h1>Netzwerk</h1><p>Projekte, Dokumente und verknüpfte Arbeitstage als Wissensstruktur.</p></div><div class="header-meta"><span>{{ project_count }} Projekte</span><span>{{ day_count }} Tage</span></div></header>
+<section class="network-panel"><div class="network-toolbar"><div class="legend"><span><i class="node-key project-key"></i>Projekt</span><span><i class="node-key document-key"></i>Dokument</span><span><i class="node-key day-key"></i>Tag</span></div><p>Knoten ziehen · Scrollen zum Zoomen · Doppelklick zum Öffnen</p></div><div id="network-canvas" class="network-canvas" role="application" aria-label="Interaktives Wissensnetzwerk"></div><div id="network-empty" class="network-empty" hidden><h2>Noch keine Verknüpfungen</h2><p>Ordne Arbeitstage Projekten zu oder lege Projektdokumente an.</p><a class="button primary" href="/projects">Zu Projekten</a></div></section>
+<script id="network-data" type="application/json">{{ graph_data|safe }}</script>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', path='/network.js') }}" defer></script>{% endblock %}

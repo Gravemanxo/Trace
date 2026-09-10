@@ -1,0 +1,25 @@
+{% macro icon(name, class_name='icon') -%}
+<svg class="{{ class_name }}" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+  {% if name == 'dashboard' %}<path d="M4 4h6v6H4zM14 4h6v4h-6zM14 12h6v8h-6zM4 14h6v6H4z"/>
+  {% elif name == 'clock' %}<circle cx="12" cy="12" r="8"/><path d="M12 8v5l3 2"/>
+  {% elif name == 'folder' %}<path d="M3 7h7l2 2h9v10H3z"/>
+  {% elif name == 'document' %}<path d="M6 3h9l3 3v15H6zM9 11h6M9 15h6"/>
+  {% elif name == 'network' %}<circle cx="6" cy="6" r="2"/><circle cx="18" cy="7" r="2"/><circle cx="12" cy="18" r="2"/><path d="m8 7 8 0M7 8l4 8M17 9l-4 7"/>
+  {% elif name == 'chart' %}<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>
+  {% elif name == 'download' %}<path d="M12 3v12m-4-4 4 4 4-4M4 20h16"/>
+  {% elif name == 'menu' %}<path d="M4 7h16M4 12h16M4 17h16"/>
+  {% elif name == 'chevron-left' %}<path d="m15 18-6-6 6-6"/>
+  {% elif name == 'chevron-right' %}<path d="m9 18 6-6-6-6"/>
+  {% elif name == 'calendar' %}<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/>
+  {% elif name == 'plus' %}<path d="M12 5v14M5 12h14"/>
+  {% elif name == 'edit' %}<path d="m4 20 4-1 11-11-3-3L5 16zM14 6l3 3"/>
+  {% elif name == 'trash' %}<path d="M4 7h16M9 7V4h6v3M7 7l1 14h8l1-14M10 11v6M14 11v6"/>
+  {% elif name == 'user' %}<circle cx="12" cy="8" r="4"/><path d="M4 21c1-5 4-7 8-7s7 2 8 7"/>
+  {% elif name == 'play' %}<path d="m8 5 11 7-11 7z"/>
+  {% elif name == 'stop' %}<rect x="6" y="6" width="12" height="12" rx="1"/>
+  {% elif name == 'close' %}<path d="m6 6 12 12M18 6 6 18"/>
+  {% elif name == 'check' %}<path d="m5 12 4 4L19 6"/>
+  {% elif name == 'search' %}<circle cx="11" cy="11" r="7"/><path d="m16 16 5 5"/>
+  {% elif name == 'arrow' %}<path d="M5 12h14m-5-5 5 5-5 5"/>{% endif %}
+</svg>
+{%- endmacro %}
